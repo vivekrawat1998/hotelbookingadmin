@@ -13,6 +13,7 @@ const RoomList = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [roomId, setRoomId] = useState("");
+  console.log("rooms", roomId)
 
   const { rooms = [] } = useSelector((state) => state.room);
 

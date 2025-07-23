@@ -1,46 +1,48 @@
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Blogservice from "./Blogservice";
+import blogService from "./Blogservice";
 
 export const createBlogThunk = createAsyncThunk(
     "blog/create", 
     async(blogData, thunkAPI) => {
         try {
-            return await Blogservice.addBlogs(blogData);
+            await blogService.addBlog(blogData);
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
         }
 });
 
-export const getBlogsThunk = createAsyncThunk(
+export const getBlogThunk = createAsyncThunk(
     "blog/get-all",
-    async (_, thunkAPI) => {
+    async (thunkAPI) => {
       try {
-        return await Blogservice.allBlogs();
+        return await blogService.allBlog();
       } catch (error) {
         return thunkAPI.rejectWithValue(error);
       }
     }
-);
+  );
 
 export const getSingleBlogThunk = createAsyncThunk("blog/get-single", async(id, thunkAPI) => {
     try {
-        return await Blogservice.singleBlogs(id);
+        await blogService.singleBlog(id);
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
 });
+
 
 export const updateBlogThunk = createAsyncThunk("blog/update-blog", async(blogData, thunkAPI) => {
     try {
-        return await Blogservice.putBlogs(blogData);
+        await blogService.putBlog(blogData);
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
 });
 
+
 export const deleteBlogThunk = createAsyncThunk("blog/delete-blog", async(id, thunkAPI) => {
     try {
-        return await Blogservice.deleteBlogs(id);
+        await blogService.deleteBlog(id);
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
@@ -50,10 +52,10 @@ export const resetState = createAction("Reset_all");
 
 const initialState = {
     blogs: [],
-    isError: false,
-    isLoading: false,
-    isSuccess: false,
-    message: "",
+  isError: false,
+  isLoading: false,
+  isSuccess: false,
+  message: "",
 };
 
 export const blogSlice = createSlice({
@@ -67,22 +69,22 @@ export const blogSlice = createSlice({
         })
         .addCase(createBlogThunk.fulfilled, (state, action) => {
             state.isSuccess = true;
-            state.createdBlog = action.payload;
+            state.doneBlog = action.payload;
         })
         .addCase(createBlogThunk.rejected, (state, action) => {
             state.isError = true;
             state.message = action.error;
         })
-        .addCase(getBlogsThunk.pending, (state) => {
+        .addCase(getBlogThunk.pending, (state) => {
             state.isLoading = true;
         })
-        .addCase(getBlogsThunk.fulfilled, (state, action) => {
+        .addCase(getBlogThunk.fulfilled, (state, action) => {
             state.isError = false;
             state.isLoading = false;
             state.isSuccess = true;
             state.blogs = action.payload;
         })
-        .addCase(getBlogsThunk.rejected,(state, action) => {
+        .addCase(getBlogThunk.rejected,(state, action) => {
             state.message = action.error;
             state.isError = true;
         })
@@ -94,6 +96,8 @@ export const blogSlice = createSlice({
             state.blogImages = action.payload.images;
             state.blogHeading = action.payload.heading;
             state.blogContent = action.payload.content;
+            state.blogDate = action.payload.date;
+            state.blogAuthor = action.payload.author;
         })
         .addCase(getSingleBlogThunk.rejected, (state, action) => {
             state.isError = true;

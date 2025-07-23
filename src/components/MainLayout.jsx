@@ -273,22 +273,22 @@ const MainLayout = () => {
               //     },
               //   ],
               // },
-              // {
-              //   key: "Blog____data",
-              //   label: "Blogs ",
-              //   children: [
-              //     {
-              //       key: "add___blogs___details",
-              //       icon: <IoMdAdd className="fs-4" />,
-              //       label: "Add Blog Details",
-              //     },
-              //     {
-              //       key: "Blogs__list",
-              //       icon: <BsListCheck className="fs-4" />,
-              //       label: "Blogs Details List",
-              //     },
-              //   ],
-              // },
+              {
+                key: "Blog____data",
+                label: "Blogs ",
+                children: [
+                  {
+                    key: "add___blogs___details",
+                    icon: <IoMdAdd className="fs-4" />,
+                    label: "Add Blog Details",
+                  },
+                  {
+                    key: "Blogs__list",
+                    icon: <BsListCheck className="fs-4" />,
+                    label: "Blogs Details List",
+                  },
+                ],
+              },
 
               // {
               //   key: "services",

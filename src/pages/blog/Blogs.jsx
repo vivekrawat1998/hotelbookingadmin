@@ -5,32 +5,41 @@ import { FiEdit } from "react-icons/fi";
 import { AiFillDelete } from "react-icons/ai";
 import CustomModal from "../../components/CustomModal";
 import { Link } from "react-router-dom";
-import { deleteBlogThunk, getBlogsThunk, resetState } from "../../features/blog/BlogSlice";
+import { deleteBlogThunk, getBlogThunk, resetState } from "../../features/blog/BlogSlice";
+
 
 const columns = [
-    {
-      title: "S.No.",
-      dataIndex: "key",
-    },
-    {
-      title: "Images",
-      dataIndex: "images",
-    },
-    {
-      title: "Heading",
-      dataIndex: "heading",
-    },
-    {
-      title: "Content",
-      dataIndex: "content",
-    },
-    {
-      title: "Action",
-      dataIndex: "action",
-    },
+  {
+    title: "S.No.",
+    dataIndex: "key",
+  },
+  {
+    title: "Images",
+    dataIndex: "images",
+  },
+  {
+    title: "Heading",
+    dataIndex: "heading",
+  },
+  {
+    title: "Content",
+    dataIndex: "content",
+  },
+  {
+    title: "Date",
+    dataIndex: "date",
+  },
+  {
+    title: "Author",
+    dataIndex: "author",
+  },
+  {
+    title: "Action",
+    dataIndex: "action",
+  },
 ];
 
-const Blogs = () => {
+const Blog = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [appId, setappId] = useState("");
@@ -46,10 +55,11 @@ const Blogs = () => {
 
   useEffect(() => {
     dispatch(resetState());
-    dispatch(getBlogsThunk());
+    dispatch(getBlogThunk());
   }, []);
 
   const blogState = useSelector((state) => state?.blog?.blogs);
+  console.log(blogState);
 
   const data1 = [];
   for (let i = 0; i < blogState?.length; i++) {
@@ -62,7 +72,7 @@ const Blogs = () => {
         <>
           <div>
             <p>
-            { blogState[i]?.heading}
+              {blogState[i]?.heading}
             </p>
           </div>
         </>
@@ -70,18 +80,32 @@ const Blogs = () => {
       content: (
         <>
           <div>
-            <p dangerouslySetInnerHTML={{__html: blogState[i]?.content}}></p>
+            <p
+              dangerouslySetInnerHTML={{ __html: blogState[i]?.content }}
+            ></p>
+          </div>
+        </>
+      ),
+      date: (
+        <>
+          <div>
+            <p>
+              {blogState[i]?.date}
+            </p>
+          </div>
+        </>
+      ),
+      author: (
+        <>
+          <div>
+            <p>
+              {blogState[i]?.author}
+            </p>
           </div>
         </>
       ),
       action: (
         <>
-          <Link
-            to={`/admin/add__blogs__details/${blogState[i]?._id}`}
-            className="ms-3 fs-3 text-primary"
-          >
-            <FiEdit />
-          </Link>
           <button
             className="ms-3 fs-3 text-danger bg-transparent border-0"
             onClick={() => showModal(blogState[i]?._id)}
@@ -97,28 +121,31 @@ const Blogs = () => {
     dispatch(deleteBlogThunk(e));
     setOpen(false);
     setTimeout(() => {
-      dispatch(getBlogsThunk());
+      dispatch(getBlogThunk());
     }, 100);
   };
 
+
   return (
     <>
-    <div>
-      <h3 className="mb-4 title"> Blogs Data</h3>
       <div>
-        <Table columns={columns} dataSource={data1} />
+        <h3 className="mb-4 title"> Blogs List</h3>
+        <div>
+          <Table columns={columns} dataSource={data1} />
+        </div>
+        <CustomModal
+          hideModal={hideModal}
+          open={open}
+          performAction={() => {
+            deleteData(appId);
+          }}
+          title="Are you sure you want to delete this Data?"
+        />
       </div>
-      <CustomModal
-         hideModal={hideModal}
-         open={open}
-        performAction={() => {
-          deleteData(appId);
-        }}
-        title="Are you sure you want to delete this Data?"
-      />
-    </div>
-  </>
+    </>
   )
 }
 
-export default Blogs;
+export default Blog;
+
+

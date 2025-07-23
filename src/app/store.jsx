@@ -25,13 +25,15 @@ import memberReducer from "../features/membership/membershipSlice"
 import categoryReducer from "../features/category/CategoriesSlice"
 import roomReducer from "../features/room/Roomslice"
 import bookingSliceReducer from "../features/booking/Bookingslices"
+import blogReducer from "../features/blog/BlogSlice"
 
 export const store = configureStore({
     reducer: {
         auth: authReducer,
+        blog: blogReducer,
         upload: uploadReducer,
         category: categoryReducer,
-        room : roomReducer, 
+        room: roomReducer,
         ourDonor: ourDonorReducer,
         contactForm: contactFormReducer,
         address: addressReducer,
@@ -53,6 +55,6 @@ export const store = configureStore({
         faq: faqReducer,
         crowdfunding: crowdfundingReducer,
         members: memberReducer,
-        bookings : bookingSliceReducer
+        bookings: bookingSliceReducer
     }
 })
